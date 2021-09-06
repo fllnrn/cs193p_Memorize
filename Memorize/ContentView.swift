@@ -8,11 +8,24 @@
 import SwiftUI
 
 struct ContentView: View {
-    var emojis = ["🤡","💩","👻","💀","👽","👾","👮🏿‍♀️","👩🏻‍🦰","👀","🫀","👲","🧶","🍀"]
+    var themes = [
+        ["🤡","💩","👻","💀","👽","👾","👮🏿‍♀️","👩🏻‍🦰","👀","🫀","👲","🧶","🍀"],
+        ["🚗","🚌","🏎","🚑","🚒","🚛","✈️","🚃"],
+        ["⚽️","🏀","🏈","⚾️","🥎","🎾","🏐","🏉"]
+    ]
+    
+    
+    @State var emojis = ["🤡","💩","👻","💀","👽","👾","👮🏿‍♀️","👩🏻‍🦰","👀","🫀","👲","🧶","🍀"]
     @State var emojisCount = 10
+
+    init() {
+        emojis = themes[0]
+        emojisCount = emojis.count
+    }
     
     var body: some View {
         VStack {
+            Text("Memorize!").font(.largeTitle)
             ScrollView {
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 65))]) {
                     ForEach(emojis[0..<emojisCount], id: \.self) { emoji in
@@ -24,36 +37,57 @@ struct ContentView: View {
             .foregroundColor(.red)
             Spacer()
             HStack {
-                remove
                 Spacer()
-                add
+                theme1
+                Spacer()
+                theme2
+                Spacer()
+                theme3
+                Spacer()
             }
-            .font(.largeTitle)
             .padding(.horizontal)
         }
         .padding(.horizontal)
     }
     
-    var add: some View {
+    var theme1: some View {
         Button {
-            if emojisCount < emojis.count {
-                emojisCount += 1
-            }
+            emojis = themes[0].shuffled()
+            emojisCount = emojis.count
         } label: {
-            Image(systemName: "plus.circle")
+            VStack {
+                Image(systemName: "face.smiling").font(.largeTitle)
+                Text("faces")
+                    .font(.footnote)
+            }
         }
     }
     
-    var remove: some View {
+    var theme2: some View {
         Button {
-            if emojisCount > 1 {
-                emojisCount -= 1
-            }
+            emojis = themes[1].shuffled()
+            emojisCount = emojis.count
         } label: {
-            Image(systemName: "minus.circle")
+            VStack {
+                Image(systemName: "car").font(.largeTitle)
+                Text("cars")
+                    .font(.footnote)
+            }
         }
     }
     
+    var theme3: some View {
+        Button {
+            emojis = themes[2].shuffled()
+            emojisCount = emojis.count
+        } label: {
+            VStack {
+                Image(systemName: "airplane").font(.largeTitle)
+                Text("planes")
+                    .font(.footnote)
+            }
+        }
+    }
     
 }
 
