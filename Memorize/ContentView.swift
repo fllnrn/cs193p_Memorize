@@ -9,14 +9,16 @@ import SwiftUI
 
 struct ContentView: View {
     var themes = [
-        ["🤡","💩","👻","💀","👽","👾","👮🏿‍♀️","👩🏻‍🦰","👀","🫀","👲","🧶","🍀"],
+        ["🤡","💩","👻","💀","👽","👾","👮🏿‍♀️","👩🏻‍🦰","👀","🫀","👲","🧶","🍀"
+         ,"😇","🧑‍⚕️","🪂","🏄‍♂️","🛶","🚥","🧡","🇧🇩","🥶","🤯","🪳","🦖"],
         ["🚗","🚌","🏎","🚑","🚒","🚛","✈️","🚃"],
         ["⚽️","🏀","🏈","⚾️","🥎","🎾","🏐","🏉"]
     ]
     
     
-    @State var emojis = ["🤡","💩","👻","💀","👽","👾","👮🏿‍♀️","👩🏻‍🦰","👀","🫀","👲","🧶","🍀"]
-    @State var emojisCount = 10
+    @State var emojis = ["🤡","💩","👻","💀","👽","👾","👮🏿‍♀️","👩🏻‍🦰","👀","🫀","👲","🧶","🍀"
+                         ,"😇","🧑‍⚕️","🪂","🏄‍♂️","🛶","🚥","🧡","🇧🇩","🥶","🤯","🪳","🦖"]
+    @State var emojisCount = 10 // 10-60 0.16 25-50 0,5  4-100 0,04
 
     init() {
         emojis = themes[0]
@@ -27,7 +29,7 @@ struct ContentView: View {
         VStack {
             Text("Memorize!").font(.largeTitle)
             ScrollView {
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 65))]) {
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: widthThatBestFits(cardCount: emojisCount)))]) {
                     ForEach(emojis[0..<emojisCount], id: \.self) { emoji in
                         CardView(content: emoji)
                             .aspectRatio(2/3, contentMode: .fit)
@@ -38,56 +40,46 @@ struct ContentView: View {
             Spacer()
             HStack {
                 Spacer()
-                theme1
+                themeChange(0)
                 Spacer()
-                theme2
+                themeChange(1)
                 Spacer()
-                theme3
+                themeChange(2)
                 Spacer()
             }
             .padding(.horizontal)
         }
         .padding(.horizontal)
     }
+    func widthThatBestFits(cardCount: Int) -> CGFloat {
+        return CGFloat(400 / cardCount)
+    }
     
-    var theme1: some View {
-        Button {
-            emojis = themes[0].shuffled()
-            emojisCount = emojis.count
+    func themeChange(_ index: Int) -> some View {
+        let imgName, captionText: String
+        switch index {
+        case 1:
+            imgName = "car"
+            captionText = "cars"
+        case 2:
+            imgName = "airplane"
+            captionText = "planes"
+        default:
+            imgName = "face.smiling"
+            captionText = "faces"
+        }
+        return Button {
+            emojis = themes[index].shuffled()
+            emojisCount = Int.random(in: 4...emojis.count)
+            
         } label: {
-            VStack {
-                Image(systemName: "face.smiling").font(.largeTitle)
-                Text("faces")
-                    .font(.footnote)
+            VStack{
+                Image(systemName: imgName).font(.largeTitle)
+                Text(captionText).font(.footnote)
             }
         }
     }
     
-    var theme2: some View {
-        Button {
-            emojis = themes[1].shuffled()
-            emojisCount = emojis.count
-        } label: {
-            VStack {
-                Image(systemName: "car").font(.largeTitle)
-                Text("cars")
-                    .font(.footnote)
-            }
-        }
-    }
-    
-    var theme3: some View {
-        Button {
-            emojis = themes[2].shuffled()
-            emojisCount = emojis.count
-        } label: {
-            VStack {
-                Image(systemName: "airplane").font(.largeTitle)
-                Text("planes")
-                    .font(.footnote)
-            }
-        }
-    }
     
 }
 
