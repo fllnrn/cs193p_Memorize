@@ -4,8 +4,12 @@ struct MemoryGame<CardContent> where CardContent: Equatable{
     private(set) var cards: [Card]
     private(set) var name: String
     private(set) var score = 0
+    private var prescore = 0
     
-    private var indexOfOneAndOnlyFaceUpCard: Int?
+    private var indexOfOneAndOnlyFaceUpCard: Int? {
+        get { cards.indices.filter({cards[$0].isFaceUp}).oneAndOnly }
+        set { cards.indices.forEach {cards[$0].isFaceUp = ($0 == newValue)} }
+    }
 
     mutating func choose(_ card: Card) {
         if let chosenIndex = cards.firstIndex(where: {$0.id == card.id}),
@@ -13,28 +17,25 @@ struct MemoryGame<CardContent> where CardContent: Equatable{
            !cards[chosenIndex].isMatched
         {
             if let potentialMatch = indexOfOneAndOnlyFaceUpCard {
+                if cards[chosenIndex].isSeen {
+                    prescore += scoreBump()
+                }
                 if cards[potentialMatch].content == cards[chosenIndex].content {
                     cards[potentialMatch].isMatched = true
                     cards[chosenIndex].isMatched = true
-                    score += 2 * scoreBump()
+                    score += prescore
                 } else {
-                    if cards[potentialMatch].isSeen {
-                        score -= 1 * scoreBump()
-                    }
-                    if cards[chosenIndex].isSeen {
-                        score -= 1 * scoreBump()
-                    }
+                    score -= prescore
                 }
-                print("score \(score)")
-                indexOfOneAndOnlyFaceUpCard = nil
+                cards[chosenIndex].isFaceUp = true
             } else {
-                for index in cards.indices {
-                    cards[index].isFaceUp = false
-                }
                 indexOfOneAndOnlyFaceUpCard = chosenIndex
+                if cards[chosenIndex].isSeen {
+                    prescore = scoreBump()
+                }
             }
-            cards[chosenIndex].isFaceUp.toggle()
             lastCardChooseTime = Date()
+            print("score \(score) prescore \(prescore)")
         }
     }
     var lastCardChooseTime = Date()
@@ -62,5 +63,14 @@ struct MemoryGame<CardContent> where CardContent: Equatable{
         }
         cards.shuffle()
         name = themeName
+    }
+}
+extension Array {
+    var oneAndOnly: Element? {
+        if self.count == 1 {
+            return first
+        } else {
+            return nil
+        }
     }
 }
