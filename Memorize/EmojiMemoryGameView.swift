@@ -8,33 +8,37 @@
 import SwiftUI
 
 struct EmojiMemoryGameView: View {
-    @ObservedObject
-    var viewModel: EmojiMemoryGame
+    typealias Card = MemoryGame<String>.Card
     
-    var cardShirtStyle: RadialGradient {
-        RadialGradient(gradient: Gradient(colors: [viewModel.themeColor, viewModel.themeColor.opacity(0.2)]),
+    @ObservedObject
+    var game: EmojiMemoryGame
+    
+    private func cardShirtStyle(width: CGFloat) -> RadialGradient {
+        RadialGradient(gradient: Gradient(colors: [game.themeColor, game.themeColor.opacity(0.2)]),
                        center: .center, startRadius: 20,
-                       endRadius: widthThatBestFits(cardCount: viewModel.cards.count))
+                       endRadius: width)
     }
     
     var body: some View {
         VStack {
-            Text("\(EmojiMemoryGame.theme.name) : \(viewModel.score)").font(.largeTitle)
-            ScrollView {
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: widthThatBestFits(cardCount: viewModel.cards.count)))]) {
-                    ForEach(viewModel.cards) { card in
-                        CardView(card: card, theme: cardShirtStyle)
-                            .aspectRatio(2/3, contentMode: .fit)
-                            .onTapGesture {
-                                viewModel.choose(card)
-                            }
+            Text("\(EmojiMemoryGame.theme.name) : \(game.score)")
+            AspectVGrid(items:  game.cards, aspectRatio: 2/3, content: { card in
+                
+                if card.isMatched && !card.isFaceUp {
+                    Rectangle().opacity(0)
+                } else {
+                CardView(card: card, theme: cardShirtStyle(width: CGFloat(100)))
+                    .padding(3)
+                    .onTapGesture {
+                        game.choose(card)
                     }
                 }
-            }
-            .foregroundColor(viewModel.themeColor)
+                
+            })
+            .foregroundColor(game.themeColor)
             Spacer()
             Button {
-                viewModel.newGame()
+                game.newGame()
                     } label: {
                         VStack{
                             Image(systemName: "gamecontroller.fill").font(.largeTitle)
@@ -44,11 +48,7 @@ struct EmojiMemoryGameView: View {
         }
         .padding(.horizontal)
     }
-    func widthThatBestFits(cardCount: Int) -> CGFloat {
-        return CGFloat(60)
-    }
-    
-    
+
     
 }
 
@@ -64,6 +64,9 @@ struct CardView: View {
                         if card.isFaceUp {
                             shape.fill().foregroundColor(.white)
                             shape.strokeBorder(lineWidth: DrawingConstants.lineWidth)
+                            Pie(startAngle: Angle(degrees: 0-90), endAngle: Angle(degrees: 110-90))
+                                .padding(DrawingConstants.piePadding)
+                                .opacity(DrawingConstants.pieOpacity)
                             Text(card.content).font(font(in: geometry.size))
                         } else if card.isMatched {
                             shape.opacity(0)
@@ -79,15 +82,19 @@ struct CardView: View {
     }
         
     private struct DrawingConstants {
-        static let cornerRadius: CGFloat = 20
+        static let cornerRadius: CGFloat = 10
         static let lineWidth: CGFloat = 3
-        static let fontScale: CGFloat = 0.8
+        static let fontScale: CGFloat = 0.7
+        static let piePadding: CGFloat = 5
+        static let pieOpacity: CGFloat = 0.5
     }
 }
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         let game = EmojiMemoryGame()
-        EmojiMemoryGameView(viewModel: game).preferredColorScheme(.dark)
+        game.choose(game.cards.first!)
+        return EmojiMemoryGameView(game: game).preferredColorScheme(.dark)
     }
 }
