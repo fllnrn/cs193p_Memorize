@@ -4,14 +4,23 @@
 //
 //  Created by Андрей Гавриков on 01.10.2021.
 //
-
 import SwiftUI
+import CoreGraphics 
 
 struct Pie: Shape {
     var startAngle: Angle
     var endAngle: Angle
     var clockwise: Bool = false
     
+    var animatableData: AnimatablePair<Double, Double> {
+        get {
+            AnimatablePair(startAngle.radians, endAngle.radians)
+        }
+        set {
+            startAngle = Angle.radians(newValue.first)
+            endAngle = Angle.radians(newValue.second)
+        }
+    }
     
     func path(in rect: CGRect) -> Path {
         let center = CGPoint(x: rect.midX, y: rect.midY)

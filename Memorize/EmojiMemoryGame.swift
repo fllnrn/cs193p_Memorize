@@ -1,5 +1,7 @@
 import SwiftUI
 class EmojiMemoryGame: ObservableObject{
+    typealias Card = MemoryGame<String>.Card
+    
     static let themes = [Theme(name: "Mix", emojis: ["🤡","💩","👻","💀","👽","👾","👮🏿‍♀️","👩🏻‍🦰","👀","🫀","👲","🧶","🍀"
                                ,"😇","🧑‍⚕️","🪂","🏄‍♂️","🛶","🚥","🧡","🇧🇩","🥶","🤯","🪳","🦖"],
                                numberOfPairs: 10, color: "blue"),
@@ -29,7 +31,7 @@ class EmojiMemoryGame: ObservableObject{
     @Published
     private var model: MemoryGame<String> = createMemoryGame()
     
-    var cards: [MemoryGame<String>.Card] {
+    var cards: [Card] {
         return model.cards
     }
     
@@ -42,7 +44,7 @@ class EmojiMemoryGame: ObservableObject{
     }
     
     var score: Int {
-        return model.score
+        return Int(model.score)
     }
     
     struct Theme {
@@ -71,7 +73,6 @@ class EmojiMemoryGame: ObservableObject{
     
     func newGame() {
         model = EmojiMemoryGame.createMemoryGame()
-        objectWillChange.send()
     }
 
 }
