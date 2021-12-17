@@ -10,6 +10,10 @@
 		5C51D9772706EEB900FC3023 /* AspectVGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C51D9762706EEB900FC3023 /* AspectVGrid.swift */; };
 		5C51D9792707035900FC3023 /* Pie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C51D9782707035900FC3023 /* Pie.swift */; };
 		5C51D97B27071D4B00FC3023 /* Cardify.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C51D97A27071D4B00FC3023 /* Cardify.swift */; };
+		5C6558B82769F939002E653C /* ThemeChooser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6558B72769F939002E653C /* ThemeChooser.swift */; };
+		5C6558BA2769FC7D002E653C /* ThemeStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6558B92769FC7D002E653C /* ThemeStore.swift */; };
+		5C6558BC276A43C6002E653C /* ThemeEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6558BB276A43C6002E653C /* ThemeEditor.swift */; };
+		5C6558BE276A486A002E653C /* UtilityExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6558BD276A486A002E653C /* UtilityExtensions.swift */; };
 		5CA8CA4B26811238004E34CC /* MemorizeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA8CA4A26811238004E34CC /* MemorizeApp.swift */; };
 		5CA8CA4D26811238004E34CC /* EmojiMemoryGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA8CA4C26811238004E34CC /* EmojiMemoryGameView.swift */; };
 		5CA8CA4F26811238004E34CC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5CA8CA4E26811238004E34CC /* Assets.xcassets */; };
@@ -22,6 +26,10 @@
 		5C51D9762706EEB900FC3023 /* AspectVGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspectVGrid.swift; sourceTree = "<group>"; };
 		5C51D9782707035900FC3023 /* Pie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pie.swift; sourceTree = "<group>"; };
 		5C51D97A27071D4B00FC3023 /* Cardify.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cardify.swift; sourceTree = "<group>"; };
+		5C6558B72769F939002E653C /* ThemeChooser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeChooser.swift; sourceTree = "<group>"; };
+		5C6558B92769FC7D002E653C /* ThemeStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeStore.swift; sourceTree = "<group>"; };
+		5C6558BB276A43C6002E653C /* ThemeEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeEditor.swift; sourceTree = "<group>"; };
+		5C6558BD276A486A002E653C /* UtilityExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UtilityExtensions.swift; sourceTree = "<group>"; };
 		5CA8CA4726811238004E34CC /* Memorize.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Memorize.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CA8CA4A26811238004E34CC /* MemorizeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemorizeApp.swift; sourceTree = "<group>"; };
 		5CA8CA4C26811238004E34CC /* EmojiMemoryGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiMemoryGameView.swift; sourceTree = "<group>"; };
@@ -62,16 +70,20 @@
 		5CA8CA4926811238004E34CC /* Memorize */ = {
 			isa = PBXGroup;
 			children = (
-				5CA8CA4A26811238004E34CC /* MemorizeApp.swift */,
-				5CA8CA4C26811238004E34CC /* EmojiMemoryGameView.swift */,
+				5C51D9782707035900FC3023 /* Pie.swift */,
 				5C51D97A27071D4B00FC3023 /* Cardify.swift */,
 				5C51D9762706EEB900FC3023 /* AspectVGrid.swift */,
-				5C51D9782707035900FC3023 /* Pie.swift */,
+				5C6558BD276A486A002E653C /* UtilityExtensions.swift */,
 				5CA8CA4E26811238004E34CC /* Assets.xcassets */,
 				5CA8CA5326811238004E34CC /* Info.plist */,
-				5CA8CA5026811238004E34CC /* Preview Content */,
+				5CA8CA4A26811238004E34CC /* MemorizeApp.swift */,
 				5CCAF5E026E64DFE00F697A8 /* MemoryGame.swift */,
 				5CCAF5E226E6504000F697A8 /* EmojiMemoryGame.swift */,
+				5CA8CA4C26811238004E34CC /* EmojiMemoryGameView.swift */,
+				5C6558B92769FC7D002E653C /* ThemeStore.swift */,
+				5C6558B72769F939002E653C /* ThemeChooser.swift */,
+				5C6558BB276A43C6002E653C /* ThemeEditor.swift */,
+				5CA8CA5026811238004E34CC /* Preview Content */,
 			);
 			path = Memorize;
 			sourceTree = "<group>";
@@ -156,9 +168,13 @@
 				5C51D9792707035900FC3023 /* Pie.swift in Sources */,
 				5C51D97B27071D4B00FC3023 /* Cardify.swift in Sources */,
 				5CCAF5E126E64DFE00F697A8 /* MemoryGame.swift in Sources */,
+				5C6558B82769F939002E653C /* ThemeChooser.swift in Sources */,
 				5CA8CA4D26811238004E34CC /* EmojiMemoryGameView.swift in Sources */,
 				5CA8CA4B26811238004E34CC /* MemorizeApp.swift in Sources */,
 				5C51D9772706EEB900FC3023 /* AspectVGrid.swift in Sources */,
+				5C6558BE276A486A002E653C /* UtilityExtensions.swift in Sources */,
+				5C6558BC276A43C6002E653C /* ThemeEditor.swift in Sources */,
+				5C6558BA2769FC7D002E653C /* ThemeStore.swift in Sources */,
 				5CCAF5E326E6504000F697A8 /* EmojiMemoryGame.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

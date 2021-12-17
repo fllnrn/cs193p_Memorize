@@ -9,7 +9,7 @@ import SwiftUI
 
 struct EmojiMemoryGameView: View {
     
-    @ObservedObject var game: EmojiMemoryGame
+    var game: EmojiMemoryGame
     
     @Namespace private var dealingNamespace
     
@@ -17,7 +17,7 @@ struct EmojiMemoryGameView: View {
     var body: some View {
         ZStack(alignment: .bottom) {
             VStack {
-                Text("\(EmojiMemoryGame.theme.name) : \(game.score)")
+                Text("\(game.theme.name) : \(game.score)")
                 gameBody
                 Spacer()
                 HStack {
@@ -71,14 +71,14 @@ struct EmojiMemoryGameView: View {
     var deckBody: some View {
         ZStack {
             ForEach(game.cards.filter(isUndealt)) { card in
-                CardView(card: card, themeColor: game.themeColor)
+                CardView(card: card, themeColor: Color(rgbaColor: game.theme.color))
                     .matchedGeometryEffect(id: card.id, in: dealingNamespace)
                     .transition(AnyTransition.asymmetric(insertion: .scale, removal: .identity))
                     .zIndex(zIndex(of: card))
             }
         }
         .frame(width: CardConstants.undealtWidth, height: CardConstants.undealtHeight)
-        .foregroundColor(game.themeColor)
+        .foregroundColor(Color(rgbaColor: game.theme.color))
         .onTapGesture {
                 dealtAllCards()
         }
@@ -90,7 +90,7 @@ struct EmojiMemoryGameView: View {
             if isUndealt(card) || (card.isMatched && !card.isFaceUp) {
                 Color.clear
             } else {
-                CardView(card: card, themeColor: game.themeColor)
+                CardView(card: card, themeColor: Color(rgbaColor: game.theme.color))
                     .matchedGeometryEffect(id: card.id, in: dealingNamespace)
                     .padding(3)
                     .transition(AnyTransition.asymmetric(insertion: .identity, removal: .opacity))
@@ -102,7 +102,7 @@ struct EmojiMemoryGameView: View {
                     }
                 }
         })
-        .foregroundColor(game.themeColor)
+        .foregroundColor(Color(rgbaColor: game.theme.color))
     }
     
     private func dealtAllCards() {
@@ -182,6 +182,8 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         let game = EmojiMemoryGame()
 //        game.choose(game.cards.first!)
-        return EmojiMemoryGameView(game: game).preferredColorScheme(.dark)
+        return EmojiMemoryGameView(game: game).preferredColorScheme(.light)
     }
 }
+
+

@@ -2,7 +2,6 @@ import Foundation
 
 struct MemoryGame<CardContent> where CardContent: Equatable{
     private(set) var cards: [Card]
-    private(set) var name: String
     private(set) var score = 0.0
     
     private var indexOfOneAndOnlyFaceUpCard: Int? {
@@ -96,7 +95,7 @@ struct MemoryGame<CardContent> where CardContent: Equatable{
         
     }
     
-    init(numberOfPairsOfCards: Int, themeName: String, createCardContent: (Int) -> CardContent) {
+    init(numberOfPairsOfCards: Int, createCardContent: (Int) -> CardContent) {
         cards = [Card]()
         for pairIndex in 0..<numberOfPairsOfCards {
             let content: CardContent = createCardContent(pairIndex)
@@ -104,7 +103,6 @@ struct MemoryGame<CardContent> where CardContent: Equatable{
             cards.append(Card(id: pairIndex*2+1, content: content))
         }
         cards.shuffle()
-        name = themeName
     }
     
 }
