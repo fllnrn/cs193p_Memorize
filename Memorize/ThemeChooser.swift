@@ -12,14 +12,14 @@ struct ThemeChooser: View {
     
     @State private var editMode: EditMode = .inactive
     @State private var themeToEdit: Theme? = nil
-    @State private var games = [Theme: EmojiMemoryGameView]()
+    @State private var games = [Int: EmojiMemoryGameView]()
     
     
     var body: some View {
         NavigationView {
             List {
                 ForEach (store.themes) { theme in
-                    NavigationLink(destination: Text(theme.name)) {
+                    NavigationLink(destination: gameView(for: theme)) {
                         VStack(alignment: .leading) {
                             Text(theme.name)
                                 .font(.headline)
@@ -34,7 +34,7 @@ struct ThemeChooser: View {
                 }
                 .onDelete { indexSet in
                     for index in indexSet {
-                        games.removeValue(forKey: store.themes[index])
+                        games.removeValue(forKey: store.themes[index].id)
                     }
                     store.themes.remove(atOffsets: indexSet)
                 }
@@ -67,6 +67,15 @@ struct ThemeChooser: View {
         TapGesture().onEnded {
             print("Tap on \(theme.name)")
             themeToEdit = theme
+        }
+    }
+    private func gameView(for theme: Theme) -> some View {
+        if let savedView = games[theme.id] {
+            return savedView
+        } else {
+            let newGameView = EmojiMemoryGameView(game: EmojiMemoryGame(theme: theme))
+            games[theme.id] = newGameView
+            return newGameView
         }
     }
     

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct EmojiMemoryGameView: View {
     
-    var game: EmojiMemoryGame
+    @ObservedObject var game: EmojiMemoryGame
     
     @Namespace private var dealingNamespace
     
@@ -180,7 +180,7 @@ struct CardView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        let game = EmojiMemoryGame()
+        let game = EmojiMemoryGame(theme: Theme.def)
 //        game.choose(game.cards.first!)
         return EmojiMemoryGameView(game: game).preferredColorScheme(.light)
     }

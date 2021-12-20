@@ -2,20 +2,16 @@ import SwiftUI
 class EmojiMemoryGame: ObservableObject{
     typealias Card = MemoryGame<String>.Card
     
-    static let themes: [Theme] = [Theme(name: "Mix", emojis: ["🤡","💩","👻","💀","👽","👾","👮🏿‍♀️","👩🏻‍🦰","👀","🫀","👲","🧶","🍀"
-                               ,"😇","🧑‍⚕️","🪂","🏄‍♂️","🛶","🚥","🧡","🇧🇩","🥶","🤯","🪳","🦖"],
-                               numberOfPairs: 10, color: RGBAColor(color: .blue), id: 0),
-                         Theme(name: "Cars", emojis: ["🚗","🚌","🏎","🚑","🚒","🚛","✈️","🚃"], numberOfPairs: 8, color: RGBAColor(color: .blue), id: 1),
-                         Theme(name: "Balls", emojis: ["⚽️","🏀","🏈","⚾️","🥎","🎾","🏐","🏉"], numberOfPairs: 8, color: RGBAColor(color: .blue), id: 2),
-                         Theme(name: "Flags", emojis: ["🏳️","🇦🇽","🇧🇬","🇨🇦","🇨🇮","🇱🇻","🇲🇭","🇯🇵","🇯🇪","🇸🇮","🇰🇳","🇺🇿",], numberOfPairs: 10, color: RGBAColor(color: .blue), id: 3),
-                         Theme(name: "Animals", emojis: ["🐶","🐱","🐰","🦊","🐻","🐼","🐨","🐵","🐷","🐸","🐤","🐝",], numberOfPairs: -1, color: RGBAColor(color: .blue), id: 4)]
+    init(theme: Theme) {
+        self.theme = theme
+    }
     
 
     static func createMemoryGame(numberOfPairs: Int, emojis: [String]) -> MemoryGame<String> {
-        return MemoryGame<String>(numberOfPairsOfCards: numberOfPairs) {index in emojis[index]}
+        return MemoryGame<String>(numberOfPairsOfCards: numberOfPairs > 0 ? numberOfPairs : emojis.count) {index in emojis[index]}
     }
     
-    var theme: Theme = themes.randomElement()! {
+    var theme: Theme {
         didSet {
             if theme != oldValue {
                 newGame(with: theme)
@@ -24,7 +20,7 @@ class EmojiMemoryGame: ObservableObject{
     }
     
     @Published
-    private var model: MemoryGame<String> = createMemoryGame(numberOfPairs: EmojiMemoryGame.themes.first?.numberOfPairs ?? 5, emojis: EmojiMemoryGame.themes.first?.emojis ?? ["🚗","🚌","🏎","🚑","🚒"])
+    private var model: MemoryGame<String> = createMemoryGame(numberOfPairs: Theme.def.numberOfPairs, emojis: Theme.def.emojis)
     
     
     var cards: [Card] {
